@@ -1,0 +1,203 @@
+create database OrderProcessingSystem
+use OrderProcessingSystem
+Sp_help
+
+--CREATING CUSTOMER TABLE
+
+CREATE TABLE Customer
+(
+CustomerId char(4) constraint pk_cid Primary Key,
+Customername varchar(15) NOT NULL,
+Address varchar(30) NOT NULL,
+ContactNo char(10) check (LEN(ContactNo)=10 and ContactNo LIKE
+'[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]') NOT NULL
+)
+
+--INSERTING RECORDS INTO CUSTOMER TABLE
+
+INSERT Customer values('C001','Sandhya','No:16/77, TNagar, Chennai', '9782349986');
+INSERT Customer values('C002','Sasidhar','No:16/77, TNagar, Chennai', '9994442221');
+INSERT Customer values('C003','Alex','Plot no:48, LB Colony, Vizag', '9876543210');
+INSERT Customer values('C004','Sundar','No:46/22, VNagar, Kerala', '9218103130');
+INSERT Customer values('C005','Xavier','Flat no:22, Sagar Nagar, Vizag', '9123456780');
+INSERT Customer values('C006','Bobby','No: 1/1/1, svihar, Chennai', '9553388882');
+INSERT Customer values('C007','Katherine','House 10,Tuglakbad, Delhi', '9999955555');
+INSERT Customer values('C008','Bhavana','No: 23/54, Bandra, Navi Mumbai', '9994442221');
+INSERT Customer values('C009','Tanmay','No:1,Imperial Heights,Delhi', '9246813570');
+INSERT Customer values('C010','Bianca','No:66, Haveli, Kolkota', '9081255331');
+
+--RETRIEVING DATA FROM CUSTOMER TABLE
+
+Select * from Customer;
+
+--CREATING EMPLOYEE TABLE
+
+CREATE TABLE Employee
+(
+EmpId char(4) constraint pk_eid Primary Key,
+EmpName varchar(15) NOT NULL,
+EAddress varchar(50) NOT NULL,
+EContactNo char(10) check (LEN(EContactNo)=10 and EContactNo LIKE 
+'[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]') NOT NULL,
+Designation varchar(20) NOT NULL
+)
+
+--INSERTING RECORDS INTO EMPLOYEE TABLE
+
+INSERT Employee values('E001','Ravi','No:19, ArunodayaNest', '9445667899', 'Manager');
+INSERT Employee values('E002', 'Ayush','No:97, Shirdi Sai Baba Mandir Road','8555425565', 'Customer relations');
+INSERT Employee values('E003', 'Naresh', '70, Floor 1, Cross 10, Vasanth Nr','7555470258', 'Delivery associate');
+INSERT Employee values('E004', 'Hari', '100,Sai Mandir Road','9655569898', 'Delivery associate');
+INSERT Employee values('E005', 'Arun', '968,12th Main, Hal 2nd Stage, Indiranagar', '7555192543','Transactions 
+manager');
+INSERT Employee values('E006', 'Nirmal', '30, 16th Cross, Phase 6, JP Nagar', '8555951107','Inventory supervisor');
+INSERT Employee values('E007', 'Kiran','1st stop, Peenya Industrial Area', '9055574991','Transaction manager');
+INSERT Employee values('E008', 'Pratap', '157, Near Coles Part, Seppings Road', '8555516992', 'Delivery associate');
+INSERT Employee values('E009', 'Kamakshi', '20, Gr Floor, Chache Towers, Residency Road', '7555397087', 'Customer 
+relations');
+INSERT Employee values('E010', 'Ayushi', '36, Sajjan Rao Road, V V Puram','8555911627', 'Transaction manager');
+Insert Employee values('E011' ,'Arvind', '12/12, 7th Cross, Lavelle Road', '9955520237', 'Transaction manager');
+
+--RETRIEVING DATA FROM EMPLOYEE TABLE
+
+SELECT * from Employee;
+
+--CREATING SUPPLIER TABLE
+
+CREATE TABLE Supplier
+(
+SupplierId char(4) constraint pk_sid Primary Key,
+SupName varchar(15) NOT NULL,
+SupAddress varchar(50),
+SContactNo char(10) check (LEN(SContactNo)=10 and SContactNo LIKE 
+'[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]') NOT NULL
+)
+
+--INSERTING RECORDS INTO SUPPLIER TABLE
+
+INSERT Supplier values('S001','Shyam','NULL', '9456789922')
+INSERT Supplier values('S002','Shankar','Eco Nursery,TT Nagar, Coimbatore', '9333393352')
+INSERT Supplier values('S003','Sunil','Sunny Electronics,VNagar,Chennai', '9393993300')
+INSERT Supplier values('S004','Sanjay','Sanju Movies, Kochi, Kerala', '9000000001')
+INSERT Supplier values('S005','Gopal','Gopal musics,Howrah,Kolkota', '9010101010')
+INSERT Supplier values('S006','Shahid','Play India,Bandra,Mumbai', '9569569560')
+INSERT Supplier values('S007','Varun','NULL', '9332331330')
+INSERT Supplier values('S008','Shreya','Shreya designs,SR Nagar,Delhi', '9080706050')
+INSERT Supplier values('S009','Sudipta','sudipta cosmetics,Howrah,Kolkota', '9000100022')
+INSERT Supplier values('S010','Ananya','No:43,Moosapet,Hyderabad', '9456965410')
+
+--RETRIEVING DATA FROM SUPPLIER TABLE
+
+SELECT * from Supplier
+
+--CREATING PRODUCT TABLE
+
+CREATE TABLE Product
+(
+ProductId int constraint pk_pid Primary Key,
+ProductName varchar(20) NOT NULL,
+ProductCost int NOT NULL,
+Availabilities int NOT NULL
+)
+
+--INSERTING RECORDS INTO PRODUCT TABLE
+
+INSERT Product values(93460,'Barbie Doll',500, 10)
+INSERT Product values(93461,'Rose Plant',450, 15)
+INSERT Product values(93462,'Voltas AC',39000, 8)
+INSERT Product values(93463,'Avengers EndGame',1000, 4)
+INSERT Product values(93464,'Bollywood top 25',600, 1)
+INSERT Product values(93465,'SG English Willow',1590, 7)
+INSERT Product values(93466,'Dining Table for 4',5590, 15)
+INSERT Product values(93467,'Kanchi Saree',3000, 6)
+INSERT Product values(93468,'Complete Make up kit',1500, 5)
+INSERT Product values(93469,'IPhone10',95590, 10)
+
+--RETRIEVING DATA FROM PRODUCT TABLE
+
+Select * from Product;
+
+--CREATING ORDERS TABLE
+
+CREATE TABLE ORDERS
+(
+OrderId char(6) constraint pk_oid Primary Key,
+ProductId int constraint fk_prod FOREIGN KEY references Product(ProductId),
+CustomerId char(4) constraint fk_cust FOREIGN KEY references Customer(CustomerId),
+EmployeeId char(4) constraint fk_emp FOREIGN KEY references Employee(EmpId),
+OrderAmount int NOT NULL,
+DateOfOrder datetime NOT NULL,
+Quantity int NOT NULL
+)
+
+--INSERTING RECORDS INTO ORDERS TABLE
+
+INSERT ORDERS values('O99870',93460,'C003','E005',500,GETDATE(),1)
+INSERT ORDERS values('O99871',93461,'C004','E010',1350,GETDATE(),3)
+INSERT ORDERS values('O99872',93461,'C010','E007',450,GETDATE(),1)
+INSERT ORDERS values('O99873',93469,'C006','E011',95590,GETDATE(),1)
+INSERT ORDERS values('O99874',93464,'C002','E011',600,GETDATE(),1)
+INSERT ORDERS values('O99875',93465,'C001','E010',1590,GETDATE(),1)
+INSERT ORDERS values('O99876',93466,'C004','E005',16770,GETDATE(),3)
+INSERT ORDERS values('O99877',93468,'C009','E007',1500,GETDATE(),1)
+INSERT ORDERS values('O99878',93467,'C005','E007',6000,GETDATE(),2)
+INSERT ORDERS values('O99879',93461,'C007','E010',450,GETDATE(),1)
+
+--RETRIEVING DATA FROM ORDERS TABLE
+
+SELECT * from ORDERS;
+
+--CREATING PAYMENT TABLE
+
+CREATE TABLE Payment
+(
+InvoiceNumber char(6) constraint pk_ino Primary Key,
+PaymentAmount int NOT NULL,
+DateOfPayment datetime NOT NULL,
+OrderId char(6) UNIQUE constraint fk_ord FOREIGN KEY references Orders(OrderId),
+CustomerId char(4) constraint fk_cus FOREIGN KEY references Customer(CustomerId),
+)
+
+--INSERTING RECORDS INTO PAYMENT TABLE
+
+INSERT Payment values('P11234',510,GETDATE(),'O99870','C003')
+INSERT Payment values('P12560',1360,GETDATE(),'O99871','C004')
+INSERT Payment values('P13441',455,GETDATE(),'O99872','C010')
+INSERT Payment values('P12342',95600,GETDATE(),'O99873','C006')
+INSERT Payment values('P10343',602,GETDATE(),'O99874','C002')
+INSERT Payment values('P19344',1595,GETDATE(),'O99875','C001')
+INSERT Payment values('P18945',16770,GETDATE(),'O99876','C004')
+INSERT Payment values('P12346',1540,GETDATE(),'O99877','C009')
+INSERT Payment values('P12567',6030,GETDATE(),'O99878','C005')
+INSERT Payment values('P34548',455,GETDATE(),'O99879','C007')
+
+--RETRIEVING DATA FROM PAYMENT TABLE
+
+SELECT * from Payment;
+
+--CREATING SUPPLIES TABLE
+
+CREATE TABLE Supplies
+(
+SupplierId char(4) constraint fk_sup FOREIGN KEY references Supplier(SupplierId),
+ProductID int constraint fk_pro FOREIGN KEY references Product(ProductId)
+)
+--INSERTING RECORDS INTO SUPPLIES TABLE
+
+INSERT Supplies values('S001',93462)
+INSERT Supplies values('S004',93461)
+INSERT Supplies values('S003',93469)
+INSERT Supplies values('S009',93465)
+INSERT Supplies values('S005',93467)
+INSERT Supplies values('S001',93463)
+INSERT Supplies values('S006',93466)
+INSERT Supplies values('S009',93461)
+INSERT Supplies values('S002',93464)
+INSERT Supplies values('S008',93468)
+INSERT Supplies values('S002',93462)
+INSERT Supplies values('S007',93463)
+
+--RETRIEVING DATA FROM SUPPLIES TABLE
+
+SELECT * from Supplies;
+
